@@ -34,30 +34,27 @@ app.use('/users', users);
 
 
 
-bot.login('NDI0MjU3MzM4MTY2MzQ1NzI5.DY2V_w.pj599U-hA4J1RTaR2Nlx4nZtZOM');
+bot.login('NDI0MjU3MzM4MTY2MzQ1NzI5.DY2Z_w.P35qL3340GKUdGlHboJT7cW7xDM');
 
 const prefix = "!!";
 
-bot.on('ready', () => {
-    console.log('bot has launched..');
-    bot.user.setStatus('idle');
-    bot.user.setActivity('in your mom\'s vagina');
-});
+    bot.on('ready', () => {
+        console.log('bot has launched..');
+        bot.user.setStatus('idle');
+        bot.user.setActivity('in your mom\'s vagina');
+    });
 
     bot.on("presenceUpdate", (oldMember, newMember)=>{
       let username      = newMember.user.username;
       let status        = newMember.user.presence.status;
+      let oldStatus        = oldMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
-
-      if(newMember.user.presence.status == "offline" & oldMember.user.presence.status == "online"){
-          guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+      console.log(status)
+      if(status == "online"){
+          guildChannels.find('name','NipponChan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
           console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
-      }
-       if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
-          guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
-          console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
-      }else {
-          return null;
+      }else{
+        return null;
       }
     })
 

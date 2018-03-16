@@ -33,7 +33,7 @@ app.use('/users', users);
 
 
 
-    
+
 bot.login('NDIzOTc4MjIyNzM3NDI0Mzg0.DYyMXQ.xB33Z32bJgnu4XkknXWMvA1cC60');
 
 const prefix = "!!";
@@ -47,11 +47,15 @@ bot.on('ready', () => {
     bot.on("presenceUpdate", (oldMember, newMember)=>{
       let username = newMember.user.username;
       let status = newMember.user.presence.status;
-
       let guildChannels = newMember.guild.channels;
-      console.log(guildChannels)
-      guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
-      console.log(guildChannels)
+
+      // if(newMember.user.presence.status == "offline" & oldMember.user.presence.status == "online"){
+      //   guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+      if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
+        guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+      }else {
+        return null;
+      }
     })
 
   bot.on('message', (message) => {
@@ -62,10 +66,10 @@ bot.on('ready', () => {
       .setDescription("Creator info")
       .setColor("#41caf4")
       .addField('.............................................',`I was made by the greatest man alive, ANUBIS`);
-      
+
      return message.channel.send(botembed);
 
-    } 
+    }
   });
 
 

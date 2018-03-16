@@ -51,8 +51,11 @@ bot.on('ready', () => {
 
       if(newMember.user.presence.status == "offline" & oldMember.user.presence.status == "online"){
           guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
-      }else if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
+          console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
+      }
+       if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
           guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+          console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
       }else {
           return null;
       }
@@ -73,7 +76,7 @@ bot.on('ready', () => {
     }else if (message.content.startsWith(prefix + "delete channel")){
 
       let deleting = new Discord.RichEmbed()
-      .setDescription("everything being deleted...")
+      .setDescription("everything is being deleted...")
       .setColor("#41caf4")
       .addField('.............................................',`faggot`);
 

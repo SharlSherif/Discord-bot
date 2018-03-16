@@ -67,8 +67,9 @@ bot.on('ready', () => {
       .setColor("#41caf4")
       .addField('.............................................',`I was made by the greatest man alive, ANUBIS`);
 
-     return message.channel.send(botembed);
-
+      message.channel.send(botembed);
+    }else if (message.content.startsWith(prefix + "secret")){
+      message.channel.send('magnus , luca is retarded', {tts:true});
     }
   });
 

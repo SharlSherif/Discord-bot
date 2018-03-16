@@ -34,7 +34,7 @@ app.use('/users', users);
 
 
 
-bot.login('NDI0MjU3MzM4MTY2MzQ1NzI5.DY2Z_w.P35qL3340GKUdGlHboJT7cW7xDM');
+bot.login('NDI0MjU3MzM4MTY2MzQ1NzI5.DY24mg.Gcz-gubJ6XgzbnyT0R6Pgck4Etw');
 
 const prefix = "!!";
 
@@ -50,8 +50,8 @@ const prefix = "!!";
       let oldStatus        = oldMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
       console.log(status)
-      if(status == "online" && oldStatus == "offline"){
-          guildChannels.find('name','NipponChan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+      if(status == "online"){
+          guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
           console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
       }else{
         return null;

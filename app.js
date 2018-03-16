@@ -34,7 +34,7 @@ app.use('/users', users);
 
 
 
-bot.login('NDI0MjU3MzM4MTY2MzQ1NzI5.DY2QvQ.PC1tLF68N3NH2E1JIwREEmLJF-Y');
+bot.login('NDI0MjU3MzM4MTY2MzQ1NzI5.DY2V_w.pj599U-hA4J1RTaR2Nlx4nZtZOM');
 
 const prefix = "!!";
 
@@ -51,8 +51,7 @@ bot.on('ready', () => {
 
       if(newMember.user.presence.status == "offline" & oldMember.user.presence.status == "online"){
         guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
-      }else
-      if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
+      }else if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
         guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
       }else {
         return null;
@@ -81,9 +80,6 @@ bot.on('ready', () => {
       message.channel.send(deleting, {tts:true});
     }
   });
-
-
-
 
 
 

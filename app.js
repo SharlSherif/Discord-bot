@@ -49,11 +49,11 @@ const prefix = "!!";
       let status        = newMember.user.presence.status;
       let oldStatus        = oldMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
-      console.log(status)
+      console.log(status);
       if(status == "online"){
-          guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+          guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
           console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
-      }else if(status === oldStatus){
+      }else if(status == oldStatus = "online"){
         return null;
       }else{
         return null;
@@ -71,9 +71,10 @@ const prefix = "!!";
 
       message.channel.send(botembed);
     }else if (message.content.startsWith(prefix + "secret")){
-      message.channel.send('magnus and luca is retarded', {tts:true});
-    }else if (message.content.startsWith(prefix + "delete channel")){
 
+      message.channel.send('magnus and luca is retarded', {tts:true});
+
+    }else if (message.content.startsWith(prefix + "delete channel")){
       let deleting = new Discord.RichEmbed()
       .setDescription("everything is being deleted...")
       .setColor("#41caf4")

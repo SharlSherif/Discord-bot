@@ -45,14 +45,14 @@ bot.on('ready', () => {
 });
 
     bot.on("presenceUpdate", (oldMember, newMember)=>{
-      let username = newMember.user.username;
-      let status = newMember.user.presence.status;
+      let username      = newMember.user.username;
+      let status        = newMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
 
       if(newMember.user.presence.status == "offline" & oldMember.user.presence.status == "online"){
-        guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+        guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
       }else if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
-        guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+        guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
       }else {
         return null;
       }

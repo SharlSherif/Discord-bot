@@ -1,0 +1,28 @@
+{
+  "name": "discord-online-ping",
+  "version": "1.0.0",
+  "private": true,
+  "engines":{
+  "node": "8.9.0"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "discord": "^0.8.2",
+    "discord.js": "^11.3.2",
+    "express": "~4.15.5",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0",
+    "heroku": "^0.2.0",
+    "serve-favicon": "~2.4.5"
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

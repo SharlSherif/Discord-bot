@@ -50,7 +50,7 @@ const prefix = "!!";
       let oldStatus        = oldMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
       console.log(status)
-      if(status == "online"){
+      if(status == "online" && oldStatus == "offline"){
           guildChannels.find('name','NipponChan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
           console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
       }else{

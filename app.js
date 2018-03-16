@@ -40,7 +40,7 @@ const prefix = "!!";
 
     bot.on('ready', () => {
         console.log('bot has launched..');
-        bot.user.setStatus('idle');
+        bot.user.setStatus('online');
         bot.user.setActivity('in your mom\'s vagina');
     });
 

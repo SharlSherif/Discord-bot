@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+let port = process.env.PORT || 3000;
 const EventEmitter = require('events');
 const Discord = require("discord.js");
 const bot = new Discord.Client();
@@ -50,11 +50,11 @@ bot.on('ready', () => {
       let guildChannels = newMember.guild.channels;
 
       if(newMember.user.presence.status == "offline" & oldMember.user.presence.status == "online"){
-        guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+          guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
       }else if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
-        guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+          guildChannels.find('name','general').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
       }else {
-        return null;
+          return null;
       }
     })
 
@@ -102,7 +102,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(3000, ()=>{
-  console.log('server is up on 3000');
+app.listen(port, ()=>{
+  console.log(`server is up on ${port}`);
 })
 module.exports = app;

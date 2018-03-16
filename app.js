@@ -77,7 +77,7 @@ bot.on('ready', () => {
       .setColor("#41caf4")
       .addField('.............................................',`faggot`);
 
-      message.channel.send(deleting, {tts:true});
+      message.channel.send(deleting);
     }
   });
 

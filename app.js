@@ -49,8 +49,9 @@ bot.on('ready', () => {
       let status = newMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
 
-      // if(newMember.user.presence.status == "offline" & oldMember.user.presence.status == "online"){
-      //   guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+      if(newMember.user.presence.status == "offline" & oldMember.user.presence.status == "online"){
+        guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
+      }else
       if (newMember.user.presence.status == "online" & oldMember.user.presence.status == "offline"){
         guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
       }else {
@@ -69,7 +70,15 @@ bot.on('ready', () => {
 
       message.channel.send(botembed);
     }else if (message.content.startsWith(prefix + "secret")){
-      message.channel.send('magnus , luca is retarded', {tts:true});
+      message.channel.send('magnus and luca is retarded', {tts:true});
+    }else if (message.content.startsWith(prefix + "delete channel")){
+
+      let deleting = new Discord.RichEmbed()
+      .setDescription("everything being deleted...")
+      .setColor("#41caf4")
+      .addField('.............................................',`faggot`);
+
+      message.channel.send(deleting, {tts:true});
     }
   });
 

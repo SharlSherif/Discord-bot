@@ -53,7 +53,7 @@ const prefix = "!!";
       if(status == "online"){
           guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
           console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
-      }else if(status == oldStatus = "online"){
+      }else if(status == oldStatus == "online"){
         return null;
       }else{
         return null;

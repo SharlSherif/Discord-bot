@@ -34,7 +34,7 @@ app.use('/users', users);
 
 
 
-bot.login('NDI0MjU3MzM4MTY2MzQ1NzI5.DY24mg.Gcz-gubJ6XgzbnyT0R6Pgck4Etw');
+bot.login(process.env.BOT_TOKEN);
 
 const prefix = "!!";
 

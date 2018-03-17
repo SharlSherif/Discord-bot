@@ -84,7 +84,10 @@ const prefix = "!!";
     }
   });
 
-
+bot.on('disconnect', function(msg, code) {
+    if (code === 0) return console.error(msg);
+    bot.connect();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

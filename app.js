@@ -72,7 +72,7 @@ const prefix = "!!";
       message.channel.send(botembed);
     }else if (message.content.startsWith(prefix + "secret")){
 
-      message.channel.send('magnus and luca is retarded', {tts:true});
+      message.channel.send('magnus and luca are retarded', {tts:true});
 
     }else if (message.content.startsWith(prefix + "delete channel")){
       let deleting = new Discord.RichEmbed()

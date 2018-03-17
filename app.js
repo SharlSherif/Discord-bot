@@ -35,7 +35,7 @@ app.use('/users', users);
 var http = require("http");
 setInterval(function() {
     http.get("https://my-discord-bot11.herokuapp.com");
-}, 300000); // every 5 minutes (300000)
+}, 1500000); // every 25 minutes
 
 bot.login(process.env.BOT_TOKEN);
 

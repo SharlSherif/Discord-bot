@@ -32,13 +32,13 @@ app.use('/users', users);
 
 
 
-var http = require("http");
+const http = require("http");
 
   setInterval(function() {
       http.get("https://my-discord-bot11.herokuapp.com");
-  }, 1500000); // every 25 minutes
+  }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
-let token = process.env.BOT_TOKEN;
+const token = process.env.BOT_TOKEN;
 
 bot.login(token);
 
@@ -52,6 +52,7 @@ const prefix = "!!";
 
     bot.on("presenceUpdate", (oldMember, newMember)=>{
       let username      = newMember.user.username;
+      let usertag       = newMember.user.tag;
       let status        = newMember.user.presence.status;
       let oldStatus     = oldMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
@@ -59,7 +60,9 @@ const prefix = "!!";
         if(newMember.user.bot == false && status == "online" && newMember.user.username !=='TheGermanGuy'){ // to exclude bots, and take action only if user status is {Online}
             guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${status}`,{tts:true}).catch((err)=>send(err));
             console.log(`${newMember.user.username} is now ${status}`);
-        }else {
+        }else if(usertag == "Ж-𝔰𝔢𝔭𝔥𝔦𝔯𝔬𝔱𝔥-Ж#0094" &&newMember.user.bot == false && status == "online" && newMember.user.username !=='TheGermanGuy'){
+          guildChannels.find('name','nipponchan').send(`Magnus is now ${status}`,{tts:true}).catch((err)=>send(err));
+        }else{
           return null;
         }
       });

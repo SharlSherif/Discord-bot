@@ -55,8 +55,8 @@ const prefix = "!!";
       let status        = newMember.user.presence.status;
       let oldStatus     = oldMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
-        console.log("oldStatus", oldStatus);
-        console.log("new status", status);
+        console.log("oldStatus", newMember.user.presence);
+        console.log("new status", oldMember.user.presence);
         if(newMember.user.bot == false && status == "online" && oldStatus == "offline" && newMember.user.username !=='TheGermanGuy'){ // to exclude bots, and take action only if user status is {Online}
             guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${status}`,{tts:true}).catch((err)=>send(err));
             console.log(`${newMember.user.username} is now ${status}`);

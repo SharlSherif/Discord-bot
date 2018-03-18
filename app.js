@@ -32,9 +32,15 @@ app.use('/users', users);
 
 
 
+var http = require("http");
 
+  setInterval(function() {
+      http.get("https://my-discord-bot11.herokuapp.com");
+  }, 1500000); // every 25 minutes
 
-bot.login(process.env.BOT_TOKEN);
+let token = process.env.BOT_TOKEN;
+
+bot.login(token);
 
 const prefix = "!!";
 
@@ -47,18 +53,17 @@ const prefix = "!!";
     bot.on("presenceUpdate", (oldMember, newMember)=>{
       let username      = newMember.user.username;
       let status        = newMember.user.presence.status;
-      let oldStatus        = oldMember.user.presence.status;
+      let oldStatus     = oldMember.user.presence.status;
       let guildChannels = newMember.guild.channels;
-      console.log(status);
-      if(status == "online"){
-          guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${newMember.user.presence.status}`,{tts:true}).catch((err)=>send(err));
-          console.log(`${newMember.user.username} is now ${newMember.user.presence.status}`);
-      }else if(status == oldStatus == "online"){
-        return null;
-      }else{
-        return null;
-      }
-    })
+
+        if(newMember.user.bot == false && status == "online" && newMember.user.username !=='TheGermanGuy'){ // to exclude bots, and take action only if user status is {Online}
+            guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${status}`,{tts:true}).catch((err)=>send(err));
+            console.log(`${newMember.user.username} is now ${status}`);
+        }else {
+          return null;
+        }
+      });
+
 
   bot.on('message', (message) => {
 
@@ -85,6 +90,10 @@ const prefix = "!!";
   });
 
 
+  bot.on('disconnect', function(msg, code) {
+      if (code === 0) return console.error(msg);
+      bot.connect();
+  });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

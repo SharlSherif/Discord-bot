@@ -59,7 +59,7 @@ const prefix = "!!";
 
      if(usertag == "Ж-𝔰𝔢𝔭𝔥𝔦𝔯𝔬𝔱𝔥-Ж#0094" &&newMember.user.bot == false && status == "online" && newMember.user.username !=='TheGermanGuy'){
           guildChannels.find('name','nipponchan').send(`Magnus is now ${status}`,{tts:true}).catch((err)=>send(err));
- }else if(newMember.user.bot == false && status == "online" && newMember.user.username !=='TheGermanGuy'){ // to exclude bots, and take action only if user status is {Online}
+ }else if(newMember.user.bot == false && status == "online" && newMember.user.username !=='TheGermanGuy' || 'ANUBIS'){ // to exclude bots, and take action only if user status is {Online}
             guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${status}`,{tts:true}).catch((err)=>send(err));
            console.log(`${newMember.user.username} is now ${status}`);
 }else{

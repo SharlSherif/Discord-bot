@@ -58,7 +58,7 @@ const prefix = "!!";
       let guildChannels = newMember.guild.channels;
 
      if(usertag == "Ж-𝔰𝔢𝔭𝔥𝔦𝔯𝔬𝔱𝔥-Ж#0094" &&newMember.user.bot == false && status == "online" ){
-          guildChannels.find('name','nipponchan').send(`Magnus is now ${status}`,{tts:true}).catch((err)=>send(err));
+          guildChannels.find('name','nipponchan').send(`Dicklet is now ${status}`,{tts:true}).catch((err)=>send(err));
  }else if(newMember.user.bot == false && status == "online" && newMember.user.username !=='ANUBIS'){ // to exclude bots, and take action only if user status is {Online}
             guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${status}`,{tts:true}).catch((err)=>send(err));
            console.log(`${newMember.user.username} is now ${status}`);

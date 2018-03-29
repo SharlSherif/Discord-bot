@@ -36,7 +36,7 @@ const http = require("http");
 
   setInterval(function() {
       http.get("https://my-discord-bot11.herokuapp.com");
-  }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
+  }, 15000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 const token = process.env.BOT_TOKEN;
 

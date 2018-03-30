@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 let port = process.env.PORT || 3000;
+
+
 const EventEmitter = require('events');
 const Discord = require("discord.js");
 const bot = new Discord.Client();
@@ -55,20 +57,23 @@ const prefix = "!!";
       let usertag       = newMember.user.tag;
       let status        = newMember.user.presence.status;
       let oldStatus     = oldMember.user.presence.status;
-      let guildChannels = newMember.guild.channels;
+      let guildChannels = bot.channels;
+      let guildID       = newMember.guild.id;
+      let notaBOT       = newMember.user.bot;
 
-        if(newMember.user.bot == false && status == "online" && newMember.user.username !=='TheGermanGuy'){ // to exclude bots, and take action only if user status is {Online}
-            guildChannels.find('name','nipponchan').send(`${newMember.user.username} is now ${status}`,{tts:true}).catch((err)=>send(err));
-            console.log(`${newMember.user.username} is now ${status}`);
-        }else if(usertag == "Ж-𝔰𝔢𝔭𝔥𝔦𝔯𝔬𝔱𝔥-Ж#0094" &&newMember.user.bot == false && status == "online" && newMember.user.username !=='TheGermanGuy'){
-          guildChannels.find('name','nipponchan').send(`Magnus is now ${status}`,{tts:true}).catch((err)=>send(err));
-        }else{
-          return null;
-        }
-      });
+          if(notaBOT == false && status == "online"){ // to exclude bots, and take action only if user status is {Online}
+              guildChannels.find("id","424258702892335117").send(`${username} is now ${status}`,{tts:true});
+              console.log(`${username} is now ${status}`);
+          }else if(usertag == "Ж-𝔰𝔢𝔭𝔥𝔦𝔯𝔬𝔱𝔥-Ж#0094" && notaBOT == false && status == "online"){
+              guildChannels.find("id","424258702892335117").send(`Magnus is now ${status}`,{tts:true});
+          }else{
+            return null;
+          }
+    });
 
 
   bot.on('message', (message) => {
+    console.log(message.channel.id);
 
     if (message.content.startsWith(prefix + "creator")) {
 

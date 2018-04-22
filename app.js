@@ -6,12 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 let port = process.env.PORT || 3000;
 
-
+const unirest = require('unirest');
+const moment = require('moment');
 const EventEmitter = require('events');
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 
-// var userStatus = require('./public/javascripts/client-status');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -19,7 +20,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -40,9 +41,8 @@ const http = require("http");
       http.get("https://my-discord-bot11.herokuapp.com");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
-const token = process.env.BOT_TOKEN;
 
-bot.login(token);
+bot.login(process.env.TOKEN);
 
 const prefix = "!!";
 
@@ -52,28 +52,26 @@ const prefix = "!!";
         bot.user.setActivity('in your mom\'s vagina');
     });
 
-    bot.on("presenceUpdate", (oldMember, newMember)=>{
-      let username      = newMember.user.username;
-      let usertag       = newMember.user.tag;
-      let status        = newMember.user.presence.status;
-      let oldStatus     = oldMember.user.presence.status;
-      let guildChannels = bot.channels;
-      let guildID       = newMember.guild.id;
-      let notaBOT       = newMember.user.bot;
+    // bot.on("presenceUpdate", (oldMember, newMember)=> {
+    //   let username      = newMember.user.username;
+    //   let usertag       = newMember.user.tag;
+    //   let newStatus     = newMember.user.presence.status;
+    //   let oldStatus     = oldMember.user.presence.status;
+    //   let guildChannels = bot.channels;
+    //   let guildID       = newMember.guild.id;
+    //   let notaBOT       = newMember.user.bot;
 
-          if(notaBOT == false && status == "online"){ // to exclude bots, and take action only if user status is {Online}
-              guildChannels.find("id","424258702892335117").send(`${username} is now ${status}`,{tts:true});
-              console.log(`${username} is now ${status}`);
-          }else if(usertag == "Ж-𝔰𝔢𝔭𝔥𝔦𝔯𝔬𝔱𝔥-Ж#0094" && notaBOT == false && status == "online"){
-              guildChannels.find("id","424258702892335117").send(`Magnus is now ${status}`,{tts:true});
-          }else{
-            return null;
-          }
-    });
+    //   console.log('old status',newMember.user.presence.status)
+
+    //     if(notaBOT === false && newStatus === "online" && oldStatus === "offline"){ // to exclude bots, and take action only if user status is {Online}
+    //         guildChannels.find("name","general").send(`${username} is now ${newStatus}`, {tts:true});
+    //     }
+    // });
 
 
   bot.on('message', (message) => {
-    console.log(message.channel.id);
+    const joinDate = message.member.guild.joinedTimestamp;
+    const username = message.member.user.username;
 
     if (message.content.startsWith(prefix + "creator")) {
 
@@ -83,17 +81,21 @@ const prefix = "!!";
       .addField('.............................................',`I was made by the greatest man alive, ANUBIS`);
 
       message.channel.send(botembed);
-    }else if (message.content.startsWith(prefix + "secret")){
 
-      message.channel.send('magnus and luca is retarded', {tts:true});
-
-    }else if (message.content.startsWith(prefix + "delete channel")){
-      let deleting = new Discord.RichEmbed()
-      .setDescription("everything is being deleted...")
-      .setColor("#41caf4")
-      .addField('.............................................',`faggot`);
-
-      message.channel.send(deleting);
+    }else if (message.content.startsWith(`${prefix}date`)){
+      message.channel.send(`${username} joined at ${moment(joinDate).format("MMM Do YYYY")}`); // ANUBIS joined at Mar 30th 2018
+    }else if(message.content.startsWith(`${prefix}joke`)){
+      unirest.get("http://api.yomomma.info/") // jokes api (101 joke)
+      .end(function (result) {
+        let joke = result.body.replace(/[{}"":]/g,""); // remove {}"": to get only the joke itself.
+        let Filtered_Joke = joke.replace('joke',""); // remove the "joke" word.
+        let botembed = new Discord.RichEmbed()
+        .setDescription("Sick Joke")
+        .setColor("#4245f4")
+        .addField(`${Filtered_Joke}`,'so funny lmao!');
+  
+        message.channel.send(botembed);
+      });
     }
   });
 
@@ -124,5 +126,6 @@ app.use(function(err, req, res, next) {
 
 app.listen(port, ()=>{
   console.log(`server is up on ${port}`);
-})
+});
+
 module.exports = app;

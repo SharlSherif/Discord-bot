@@ -15,11 +15,14 @@
     "discord": "^0.8.2",
     "discord.js": "^11.3.2",
     "express": "~4.15.5",
+    "hbs": "^4.0.1",
     "heroku": "^0.2.0",
     "http": "0.0.0",
     "jade": "~1.11.0",
+    "moment": "^2.22.1",
     "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "unirest": "^0.5.1"
   },
   "main": "app.js",
   "devDependencies": {},

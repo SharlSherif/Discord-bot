@@ -96,6 +96,8 @@ const prefix = "!!";
   
         message.channel.send(botembed);
       });
+    }else if (message.content.startsWith(`${prefix}apb`)){
+      message.channel.send(`APB APB APB APB APB APB`, {tts:true});
     }
   });
 

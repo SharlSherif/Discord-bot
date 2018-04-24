@@ -41,7 +41,7 @@ const http = require("http");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 
-bot.login(process.env.TOKEN || "NDI0MjU3MzM4MTY2MzQ1NzI5.DY8_AA.6RPjm5nXNxaXQ15edJsAxxtKjvg");
+bot.login(process.env.TOKEN);
 
 const prefix = "!!";
 
@@ -105,8 +105,15 @@ const prefix = "!!";
       
       unirest.get(`https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1&tags=${User_tags}&cid=1`) // search on gelbooru.com
       .end((result) => {
-        const hentai_image = result.body[0].file_url;
-        message.channel.send('cum cum', {file:`${hentai_image}`});
+        console.log(result.status);
+        if(result.body){
+          console.log(result);
+          const hentai_image = result.body[0].file_url;
+          message.channel.send('cum cum', {file:`${hentai_image}`});
+        }
+        else {
+          message.channel.send(`NOT FOUND. try with different tags.`);
+        }
       })
 
     }

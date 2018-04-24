@@ -82,8 +82,10 @@ const prefix = "!!";
       message.channel.send(botembed);
 
     }else if (message.content.startsWith(`${prefix}date`)){
+
       message.channel.send(`${username} joined at ${moment(joinDate).format("MMM Do YYYY")}`); // ANUBIS joined at Mar 30th 2018
     }else if(message.content.startsWith(`${prefix}joke`)){
+
       unirest.get("http://api.yomomma.info/") // jokes api (101 joke)
       .end(function (result) {
         let joke = result.body.replace(/[{}"":]/g,""); // remove {}"": to get only the joke itself.
@@ -99,13 +101,12 @@ const prefix = "!!";
       message.channel.send(`APB APB APB APB APB APB`, {tts:true});
 
     }else if (message.content.startsWith(`${prefix}hentai`)){
+      let User_tags = encodeURI(message.content.replace("!!hentai","")); // user specified tag. if none is written it runs by default
       
-      unirest.get("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1") // jokes api (101 joke)
-      .headers({'Content-Type': 'application/json'})
+      unirest.get(`https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1&tags=${User_tags}&cid=1`) // search on gelbooru.com
       .end((result) => {
         const hentai_image = result.body[0].file_url;
-
-        message.channel.send('cum cum', {file:`${hentai_image}`,tts:true});
+        message.channel.send('cum cum', {file:`${hentai_image}`});
       })
 
     }

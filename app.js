@@ -11,8 +11,7 @@ const moment = require('moment');
 const EventEmitter = require('events');
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-
-
+const fetch = require('node-fetch')
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -98,6 +97,17 @@ const prefix = "!!";
       });
     }else if (message.content.startsWith(`${prefix}apb`)){
       message.channel.send(`APB APB APB APB APB APB`, {tts:true});
+
+    }else if (message.content.startsWith(`${prefix}hentai`)){
+      
+      unirest.get("https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1") // jokes api (101 joke)
+      .headers({'Content-Type': 'application/json'})
+      .end((result) => {
+        const hentai_image = result.body[0].file_url;
+
+        message.channel.send('cum cum', {file:`${hentai_image}`,tts:true});
+      })
+
     }
   });
 

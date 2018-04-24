@@ -41,7 +41,7 @@ const http = require("http");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 
-bot.login(process.env.TOKEN);
+bot.login(process.env.BOT_TOKEN);
 
 const prefix = "!!";
 
@@ -72,7 +72,7 @@ const prefix = "!!";
     const joinDate = message.member.guild.joinedTimestamp;
     const username = message.member.user.username;
 
-    if (message.content.startsWith(prefix + "creator")) {
+    if (message.content.startsWith(`${prefix}creator`)) {
 
       let botembed = new Discord.RichEmbed()
       .setDescription("Creator info")
@@ -84,6 +84,7 @@ const prefix = "!!";
     }else if (message.content.startsWith(`${prefix}date`)){
 
       message.channel.send(`${username} joined at ${moment(joinDate).format("MMM Do YYYY")}`); // ANUBIS joined at Mar 30th 2018
+      
     }else if(message.content.startsWith(`${prefix}joke`)){
 
       unirest.get("http://api.yomomma.info/") // jokes api (101 joke)
@@ -115,7 +116,8 @@ const prefix = "!!";
           message.channel.send(`NOT FOUND. try with different tags.`);
         }
       })
-
+    }else if(message.content.includes('anusbees')){
+      message.channel.send(`You mean god of earth? `, {tts:true});
     }
   });
 

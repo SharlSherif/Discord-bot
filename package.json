@@ -25,7 +25,7 @@
     "serve-favicon": "~2.4.5",
     "unirest": "^0.5.1"
   },
-  "main": "layout.js",
+  "main": "app.js",
   "devDependencies": {},
   "author": "",
   "license": "ISC",

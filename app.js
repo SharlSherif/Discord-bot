@@ -41,7 +41,7 @@ const http = require("http");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 
-bot.login(process.env.TOKEN);
+bot.login('NDI0MjU3MzM4MTY2MzQ1NzI5.DcDkNw.90x7uJKk6DTZ2v63UHYdS_vJvMo');
 
 const prefix = "!!";
 

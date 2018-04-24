@@ -11,7 +11,7 @@ const moment = require('moment');
 const EventEmitter = require('events');
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-const fetch = require('node-fetch')
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -37,11 +37,11 @@ app.use('/users', users);
 const http = require("http");
 
   setInterval(function() {
-      http.get("https://my-discord-bot11.herokuapp.com");
+      http.get("https://discord-bot2018.herokuapp.com/");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 
-bot.login(process.env.TOKEN);
+bot.login(process.env.TOKEN || "NDI0MjU3MzM4MTY2MzQ1NzI5.DY8_AA.6RPjm5nXNxaXQ15edJsAxxtKjvg");
 
 const prefix = "!!";
 

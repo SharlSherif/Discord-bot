@@ -101,16 +101,21 @@ const prefix = "!!";
     }else if (message.content.startsWith(`${prefix}apb`)){
       message.channel.send(`APB APB APB APB APB APB`, {tts:true});
 
-    }else if (message.content.startsWith(`${prefix}hentai`)){
-      let User_tags = encodeURI(message.content.replace("!!hentai","")); // user specified tag. if none is written it runs by default
+    }else if (message.content.startsWith(`${prefix}h`)){
+      let User_tags = encodeURI(message.content.replace("!!h","")); // user specified tag. if none is written it runs by default
       
       unirest.get(`https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1&tags=${User_tags}&cid=1`) // search on gelbooru.com
       .end((result) => {
-        console.log(result.status);
         if(result.body){
-          console.log(result);
-          const hentai_image = result.body[0].file_url;
-          message.channel.send('cum cum', {file:`${hentai_image}`});
+          const body = result.body[0];
+          const hentai_image = body.file_url;
+          let image_Embed = new Discord.RichEmbed()
+          .setAuthor(body.owner, hentai_image) // the author name
+          .setImage(hentai_image) // the image
+          .setFooter(body.tags.substring(1, 50)) // image tags
+          .setColor('#ac41f4') // left side color
+
+          message.channel.send(image_Embed); // send the embed          
         }
         else {
           message.channel.send(`NOT FOUND. try with different tags.`);

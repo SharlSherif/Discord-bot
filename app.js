@@ -146,9 +146,9 @@ const prefix = "!!";
                   snippet = response.items[0].snippet;
 
             const google_image_embed = new Discord.RichEmbed()
-                  .setAuthor(title, image) // the author name
+                  .setAuthor(title, image) // the author page name
                   .setImage(image) // the image
-                  .setFooter(snippet.substring(1, 200)) // image tags
+                  // .setFooter(snippet.substring(1, 200)) // image description
                   .setColor('#EA4335') // left side color
 
               message.channel.send(google_image_embed); // send the embed

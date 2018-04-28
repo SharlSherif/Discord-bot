@@ -11,6 +11,7 @@ const moment = require('moment');
 const EventEmitter = require('events');
 const Discord = require("discord.js");
 const bot = new Discord.Client();
+const GoogleSearch = require('google-search')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -37,7 +38,7 @@ app.use('/users', users);
 const http = require("http");
 
   setInterval(function() {
-      http.get("https://discord-bot2018.herokuapp.com/");
+      http.get("https://discord-botx1.herokuapp.com/");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 
@@ -51,7 +52,7 @@ const prefix = "!!";
         bot.user.setActivity('in your mom\'s vagina');
     });
 
-    // bot.on("presenceUpdate", (oldMember, newMember)=> {
+    // bot.on("presenceUpdate", (oldMember, newMember)=> {  statusUpdate notifications
     //   let username      = newMember.user.username;
     //   let usertag       = newMember.user.tag;
     //   let newStatus     = newMember.user.presence.status;
@@ -67,6 +68,10 @@ const prefix = "!!";
     //     }
     // });
 
+    const googleSearch = new GoogleSearch({
+      key: process.env.API_KEY,
+      cx: process.env.API_CX
+    });
 
   bot.on('message', (message) => {
     const joinDate = message.member.guild.joinedTimestamp;
@@ -107,15 +112,16 @@ const prefix = "!!";
       unirest.get(`https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1&tags=${User_tags}&cid=1`) // search on gelbooru.com
       .end((result) => {
         if(result.body){
-          const body = result.body[0];
-          const hentai_image = body.file_url;
-          let image_Embed = new Discord.RichEmbed()
-          .setAuthor(body.owner, hentai_image) // the author name
-          .setImage(hentai_image) // the image
-          .setFooter(body.tags.substring(1, 50)) // image tags
-          .setColor('#ac41f4') // left side color
+          const body = result.body[0],
+                hentai_image = body.file_url;
+          
+          let gelbooru_image_embed = new Discord.RichEmbed()
+                .setAuthor(body.owner, hentai_image) // the author name
+                .setImage(hentai_image) // the image
+                .setFooter(body.tags.substring(1, 50)) // image tags
+                .setColor('#ac41f4') // left side color
 
-          message.channel.send(image_Embed); // send the embed          
+          message.channel.send(gelbooru_image_embed); // send the embed          
         }
         else {
           message.channel.send(`NOT FOUND. try with different tags.`);
@@ -123,6 +129,37 @@ const prefix = "!!";
       })
     }else if(message.content.includes('anusbees')){
       message.channel.send(`You mean god of earth? `, {tts:true});
+    }else if(message.content.startsWith(`${prefix}g`)){
+      let User_image_query = message.content.replace(`${prefix}g`, "");
+      if(User_image_query){
+        googleSearch.build({
+          q: `${User_image_query}`,
+          start: 5,
+          imgType: "photo",
+          gl: "eng", //geolocation, 
+          lr: "lang_en",
+          num: 1 // Number of search results to return between 1 and 10 
+        }, function(error, response) {
+          if(response && response.items[0].pagemap.cse_image){        
+            const title   = response.items[0].title,
+                  image   = response.items[0].pagemap.cse_image[0].src,
+                  snippet = response.items[0].snippet;
+
+            const google_image_embed = new Discord.RichEmbed()
+                  .setAuthor(title, image) // the author name
+                  .setImage(image) // the image
+                  .setFooter(snippet.substring(1, 200)) // image tags
+                  .setColor('#EA4335') // left side color
+
+              message.channel.send(google_image_embed); // send the embed
+          }else {
+            message.channel.send('NOT FOUND.'); // send the embed
+          }
+        });
+      }else {
+        message.channel.send('type something, idiot.'); // send the embed
+      }
+
     }
   });
 

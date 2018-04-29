@@ -124,7 +124,7 @@ const prefix = "!!";
           message.channel.send(gelbooru_image_embed); // send the embed          
         }
         else {
-          message.channel.send(`NOT FOUND. try with different tags.`);
+          message.channel.send('`NOT FOUND. try with different tags.`');
         }
       })
     }else if(message.content.includes('anusbees')){
@@ -135,29 +135,30 @@ const prefix = "!!";
         googleSearch.build({
           q: `${User_image_query}`,
           start: 5,
-          imgType: "photo",
+          searchType :"image",
           gl: "eng", //geolocation, 
           lr: "lang_en",
           num: 1 // Number of search results to return between 1 and 10 
         }, function(error, response) {
-          if(response && response.items[0].pagemap.cse_image){        
-            const title   = response.items[0].title,
-                  image   = response.items[0].pagemap.cse_image[0].src,
-                  snippet = response.items[0].snippet;
+          console.log(response.items[0].link)
+          if(response && response.items[0].link){        
+            const title   = response.items[0].title, // page title
+                  image   = response.items[0].link, // image itself
+                  snippet = response.items[0].snippet; // short description
 
             const google_image_embed = new Discord.RichEmbed()
                   .setAuthor(title, image) // the author page name
                   .setImage(image) // the image
                   // .setFooter(snippet.substring(1, 200)) // image description
-                  .setColor('#EA4335') // left side color
+                  .setColor('#3cba54') // left side color
 
               message.channel.send(google_image_embed); // send the embed
           }else {
-            message.channel.send('NOT FOUND.'); // send the embed
+            message.channel.send('`NOT FOUND.`'); // send the embed
           }
         });
       }else {
-        message.channel.send('type something, idiot.'); // send the embed
+        message.channel.send('`Type something, idiot.`'); // send the embed
       }
 
     }

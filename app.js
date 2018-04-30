@@ -42,7 +42,7 @@ const http = require("http");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 
-bot.login(process.env.BOT_TOKEN || "NDI0MjU3MzM4MTY2MzQ1NzI5.DcIDyA.fKoR5kwjcI4RsLbXtp50D_SkJ_4");
+bot.login(process.env.BOT_TOKEN);
 
 const prefix = "!!";
 
@@ -69,8 +69,8 @@ const prefix = "!!";
     // });
 
     const googleSearch = new GoogleSearch({
-      key: process.env.API_KEY || "AIzaSyCucFXy0NheYTF5_-48SICeYhy3Igzq21Y",
-      cx: process.env.API_CX || "012134288338999602215:hreo-3xox4g"
+      key: process.env.API_KEY,
+      cx: process.env.API_CX
     });
 
   bot.on('message', (message) => {

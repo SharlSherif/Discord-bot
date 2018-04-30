@@ -42,7 +42,7 @@ const http = require("http");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(process.env.BOT_TOKEN || "NDI0MjU3MzM4MTY2MzQ1NzI5.DcIDyA.fKoR5kwjcI4RsLbXtp50D_SkJ_4");
 
 const prefix = "!!";
 
@@ -69,8 +69,8 @@ const prefix = "!!";
     // });
 
     const googleSearch = new GoogleSearch({
-      key: process.env.API_KEY,
-      cx: process.env.API_CX
+      key: process.env.API_KEY || "AIzaSyCucFXy0NheYTF5_-48SICeYhy3Igzq21Y",
+      cx: process.env.API_CX || "012134288338999602215:hreo-3xox4g"
     });
 
   bot.on('message', (message) => {
@@ -86,11 +86,13 @@ const prefix = "!!";
 
       message.channel.send(botembed);
 
-    }else if (message.content.startsWith(`${prefix}date`)){
+    }
+    else if (message.content.startsWith(`${prefix}date`)){
 
       message.channel.send(`${username} joined at ${moment(joinDate).format("MMM Do YYYY")}`); // ANUBIS joined at Mar 30th 2018
       
-    }else if(message.content.startsWith(`${prefix}joke`)){
+    }
+    else if(message.content.startsWith(`${prefix}joke`)){
 
       unirest.get("http://api.yomomma.info/") // jokes api (101 joke)
       .end(function (result) {
@@ -106,7 +108,8 @@ const prefix = "!!";
     }else if (message.content.startsWith(`${prefix}apb`)){
       message.channel.send(`APB APB APB APB APB APB`, {tts:true});
 
-    }else if (message.content.startsWith(`${prefix}h`)){
+    }
+    else if (message.content.startsWith(`${prefix}h`)){
       let User_tags = encodeURI(message.content.replace("!!h","")); // user specified tag. if none is written it runs by default
       
       unirest.get(`https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1&tags=${User_tags}&cid=1`) // search on gelbooru.com
@@ -127,10 +130,13 @@ const prefix = "!!";
           message.channel.send('`NOT FOUND. try with different tags.`');
         }
       })
-    }else if(message.content.includes('anusbees')){
+    }
+    else if(message.content.includes('anusbees')){
       message.channel.send(`You mean god of earth? `, {tts:true});
-    }else if(message.content.startsWith(`${prefix}g`)){
+    }
+    else if(message.content.startsWith(`${prefix}g`)){
       let User_image_query = message.content.replace(`${prefix}g`, "");
+
       if(User_image_query){
         googleSearch.build({
           q: `${User_image_query}`,
@@ -139,9 +145,10 @@ const prefix = "!!";
           gl: "eng", //geolocation, 
           lr: "lang_en",
           num: 1 // Number of search results to return between 1 and 10 
-        }, function(error, response) {
-          console.log(response.items[0].link)
-          if(response && response.items[0].link){        
+        }, (error, response) =>{
+          const bannedWord = User_image_query.includes("gay");
+
+          if(response && response.items[0].link && !bannedWord){        
             const title   = response.items[0].title, // page title
                   image   = response.items[0].link, // image itself
                   snippet = response.items[0].snippet; // short description
@@ -153,11 +160,14 @@ const prefix = "!!";
                   .setColor('#3cba54') // left side color
 
               message.channel.send(google_image_embed); // send the embed
-          }else {
+          }
+          else {
             message.channel.send('`NOT FOUND.`'); // send the embed
           }
+
         });
-      }else {
+      }
+      else {
         message.channel.send('`Type something, idiot.`'); // send the embed
       }
 

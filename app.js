@@ -1,22 +1,24 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-let port = process.env.PORT || 3000;
+const express = require('express'),
+      path = require('path'),
+      favicon = require('serve-favicon'),
+      logger = require('morgan'),
+      cookieParser = require('cookie-parser'),
+      bodyParser = require('body-parser');
 
-const unirest = require('unirest');
-const moment = require('moment');
-const EventEmitter = require('events');
-const Discord = require("discord.js");
-const bot = new Discord.Client();
-const GoogleSearch = require('google-search')
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+const Discord = require("discord.js"),
+      bot = new Discord.Client(),
+      unirest = require('unirest'),
+      moment = require('moment'),
+      EventEmitter = require('events'),
+      GoogleSearch = require('google-search'),
+      http = require("http"),
 
-var app = express();
+      port = process.env.PORT || 3000;
+
+const index = require('./routes/index'),
+      users = require('./routes/users'),
+      app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,14 +37,13 @@ app.use('/users', users);
 
 
 
-const http = require("http");
 
   setInterval(function() {
       http.get("https://discord-botx1.herokuapp.com/");
   }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
 
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(process.env.BOT_TOKEN || "NDI0MjU3MzM4MTY2MzQ1NzI5.DcIDyA.fKoR5kwjcI4RsLbXtp50D_SkJ_4");
 
 const prefix = "!!";
 
@@ -69,8 +70,8 @@ const prefix = "!!";
     // });
 
     const googleSearch = new GoogleSearch({
-      key: process.env.API_KEY,
-      cx: process.env.API_CX
+      key: process.env.API_KEY || "AIzaSyCucFXy0NheYTF5_-48SICeYhy3Igzq21Y",
+      cx: process.env.API_CX || "012134288338999602215:hreo-3xox4g"
     });
 
   bot.on('message', (message) => {
@@ -148,21 +149,29 @@ const prefix = "!!";
         }, (error, response) =>{
           const bannedWord = User_image_query.includes("gay");
 
-          if(response && response.items[0].link && !bannedWord){        
+          if(response && response.items && !bannedWord){
+            
             const title   = response.items[0].title, // page title
                   image   = response.items[0].link, // image itself
                   snippet = response.items[0].snippet; // short description
 
             const google_image_embed = new Discord.RichEmbed()
-                  .setAuthor(title, image) // the author page name
+                  // .setAuthor(title, image) // the author page name
                   .setImage(image) // the image
                   // .setFooter(snippet.substring(1, 200)) // image description
-                  .setColor('#3cba54') // left side color
+                  .setColor('#3F51B5') // left side color
 
-              message.channel.send(google_image_embed); // send the embed
+              message.channel.send(google_image_embed)
+              .then((message) => {
+                message.react("⏪")                
+                message.react("⏩")            
+              }).catch((err) => {
+                console.log(err)
+               });
+              // send the embed
           }
           else {
-            message.channel.send('`NOT FOUND.`'); // send the embed
+            message.channel.send(```NOT FOUND.``${error}`); // send the embed
           }
 
         });
@@ -182,7 +191,7 @@ const prefix = "!!";
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+       err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

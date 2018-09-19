@@ -21,6 +21,7 @@
     "jade": "~1.11.0",
     "moment": "^2.22.1",
     "morgan": "~1.9.0",
+    "request": "^2.88.0",
     "serve-favicon": "~2.4.5",
     "unirest": "^0.5.1"
   },

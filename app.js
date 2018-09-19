@@ -1,215 +1,70 @@
-const express = require('express'),
-      path = require('path'),
-      favicon = require('serve-favicon'),
-      logger = require('morgan'),
-      cookieParser = require('cookie-parser'),
-      bodyParser = require('body-parser');
+const productionVars = require('./public/ProductionVars')
+const PORT = productionVars.PORT
+// ? Start Modules
+const {
+  app
+} = require('./public/Modules/InternalModules')
 
+const {
+  bot
+} = require('./public/Modules/ExternalModules')
+// ? End Modules
 
-const Discord = require("discord.js"),
-      bot = new Discord.Client(),
-      unirest = require('unirest'),
-      moment = require('moment'),
-      EventEmitter = require('events'),
-      GoogleSearch = require('google-search'),
-      http = require("http"),
+// ? Start Credentials
+const {
+  googleSearch
+} = require('./public/Credentials');
+// ?  End Credentials
 
-      port = process.env.PORT || 3000;
+// ?  Start Commands
+const commands = require('./public/Commands')
+// ?  End Commands
 
-const index = require('./routes/index'),
-      users = require('./routes/users'),
-      app = express();
+// ? Start Responses
+const Credits = require('./public/Responses/Credits')
+const joinDate = require('./public/Responses/joinDate')
+const GetJoke = require('./public/Responses/Jokes')
+const GetHentai = require('./public/Responses/Search/Hentai')
+const Google = require('./public/Responses/Search/GoogleImages')
+// ? End Responses
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+// const Refresh = require('./public/Refresh')
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// // ? Make sure the host isn't sleeping
+// Refresh(25) // make a get request to the host every 25 MINUTES
 
-app.use('/', index);
-app.use('/users', users);
-
-
-
-
-  setInterval(function() {
-      http.get("https://discord-botx1.herokuapp.com/");
-  }, 1500000); // every 25 minutes it sends a GET request to keep the hosting awake
-
-
-bot.login(process.env.BOT_TOKEN || "NDI0MjU3MzM4MTY2MzQ1NzI5.DcIDyA.fKoR5kwjcI4RsLbXtp50D_SkJ_4");
-
-const prefix = "!!";
-
-    bot.on('ready', () => {
-        console.log('bot has launched..');
-        bot.user.setStatus('online');
-        bot.user.setActivity('in your mom\'s vagina');
-    });
-
-    // bot.on("presenceUpdate", (oldMember, newMember)=> {  statusUpdate notifications
-    //   let username      = newMember.user.username;
-    //   let usertag       = newMember.user.tag;
-    //   let newStatus     = newMember.user.presence.status;
-    //   let oldStatus     = oldMember.user.presence.status;
-    //   let guildChannels = bot.channels;
-    //   let guildID       = newMember.guild.id;
-    //   let notaBOT       = newMember.user.bot;
-
-    //   console.log('old status',newMember.user.presence.status)
-
-    //     if(notaBOT === false && newStatus === "online" && oldStatus === "offline"){ // to exclude bots, and take action only if user status is {Online}
-    //         guildChannels.find("name","general").send(`${username} is now ${newStatus}`, {tts:true});
-    //     }
-    // });
-
-    const googleSearch = new GoogleSearch({
-      key: process.env.API_KEY || "AIzaSyCucFXy0NheYTF5_-48SICeYhy3Igzq21Y",
-      cx: process.env.API_CX || "012134288338999602215:hreo-3xox4g"
-    });
-
-  bot.on('message', (message) => {
-    const joinDate = message.member.guild.joinedTimestamp;
-    const username = message.member.user.username;
-
-    if (message.content.startsWith(`${prefix}creator`)) {
-
-      let botembed = new Discord.RichEmbed()
-      .setDescription("Creator info")
-      .setColor("#41caf4")
-      .addField('.............................................',`I was made by the greatest man alive, ANUBIS`);
-
-      message.channel.send(botembed);
-
-    }
-    else if (message.content.startsWith(`${prefix}date`)){
-
-      message.channel.send(`${username} joined at ${moment(joinDate).format("MMM Do YYYY")}`); // ANUBIS joined at Mar 30th 2018
-      
-    }
-    else if(message.content.startsWith(`${prefix}joke`)){
-
-      unirest.get("http://api.yomomma.info/") // jokes api (101 joke)
-      .end(function (result) {
-        let joke = result.body.replace(/[{}"":]/g,""); // remove {}"": to get only the joke itself.
-        let Filtered_Joke = joke.replace('joke',""); // remove the "joke" word.
-        let botembed = new Discord.RichEmbed()
-        .setDescription("Sick Joke")
-        .setColor("#4245f4")
-        .addField(`${Filtered_Joke}`,'so funny lmao!');
-  
-        message.channel.send(botembed);
-      });
-    }else if (message.content.startsWith(`${prefix}apb`)){
-      message.channel.send(`APB APB APB APB APB APB`, {tts:true});
-
-    }
-    else if (message.content.startsWith(`${prefix}h`)){
-      let User_tags = encodeURI(message.content.replace("!!h","")); // user specified tag. if none is written it runs by default
-      
-      unirest.get(`https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=1&json=1&tags=${User_tags}&cid=1`) // search on gelbooru.com
-      .end((result) => {
-        if(result.body){
-          const body = result.body[0],
-                hentai_image = body.file_url;
-          
-          let gelbooru_image_embed = new Discord.RichEmbed()
-                .setAuthor(body.owner, hentai_image) // the author name
-                .setImage(hentai_image) // the image
-                .setFooter(body.tags.substring(1, 50)) // image tags
-                .setColor('#ac41f4') // left side color
-
-          message.channel.send(gelbooru_image_embed); // send the embed          
-        }
-        else {
-          message.channel.send('`NOT FOUND. try with different tags.`');
-        }
-      })
-    }
-    else if(message.content.includes('anusbees')){
-      message.channel.send(`You mean god of earth? `, {tts:true});
-    }
-    else if(message.content.startsWith(`${prefix}g`)){
-      let User_image_query = message.content.replace(`${prefix}g`, "");
-
-      if(User_image_query){
-        googleSearch.build({
-          q: `${User_image_query}`,
-          start: 5,
-          searchType :"image",
-          gl: "eng", //geolocation, 
-          lr: "lang_en",
-          num: 1 // Number of search results to return between 1 and 10 
-        }, (error, response) =>{
-          const bannedWord = User_image_query.includes("gay");
-
-          if(response && response.items && !bannedWord){
-            
-            const title   = response.items[0].title, // page title
-                  image   = response.items[0].link, // image itself
-                  snippet = response.items[0].snippet; // short description
-
-            const google_image_embed = new Discord.RichEmbed()
-                  // .setAuthor(title, image) // the author page name
-                  .setImage(image) // the image
-                  // .setFooter(snippet.substring(1, 200)) // image description
-                  .setColor('#3F51B5') // left side color
-
-              message.channel.send(google_image_embed)
-              .then((message) => {
-                message.react("⏪")                
-                message.react("⏩")            
-              }).catch((err) => {
-                console.log(err)
-               });
-              // send the embed
-          }
-          else {
-            message.channel.send(```NOT FOUND.``${error}`); // send the embed
-          }
-
-        });
-      }
-      else {
-        message.channel.send('`Type something, idiot.`'); // send the embed
-      }
-
-    }
-  });
-
-
-  bot.on('disconnect', function(msg, code) {
-      if (code === 0) return console.error(msg);
-      bot.connect();
-  });
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-       err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+bot.on('ready', () => {
+  console.log('bot has launched..');
+  bot.user.setStatus('online');
+  bot.user.setActivity('in your mom\'s vagina');
 });
 
 
-app.listen(port, ()=>{
-  console.log(`server is up on ${port}`);
+bot.on('message', (message) => {
+  const joindate = message.member.guild.joinedTimestamp;
+  const username = message.member.user.username;
+  const channel = message.channel
+  const messageContent = message.content
+
+  if (messageContent.startsWith(commands.creator)) Credits(channel)
+
+  else if (messageContent.startsWith(commands.date)) joinDate(channel, joindate, username)
+
+  else if (messageContent.startsWith(commands.joke)) GetJoke(channel)
+
+  else if (messageContent.startsWith(commands.hentai)) GetHentai(channel, messageContent)
+
+  else if (message.content.startsWith(commands.google)) Google(channel, messageContent)
+});
+
+
+bot.on('disconnect', function (msg, code) {
+  if (code === 0) return console.error(msg);
+  // bot.connect();
+});
+
+app.listen(PORT, () => {
+  console.log(`server is up on ${PORT}`);
 });
 
 module.exports = app;

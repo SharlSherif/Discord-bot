@@ -19,7 +19,7 @@ async function Timer(channel, messageContent, voiceChannel) {
             tts: true
         })
         if (i == timer) {
-            voiceChannel.join().then(connection => {
+            await voiceChannel.join().then(connection => {
                 const alarmSiren = connection.playFile('./The-purge-siren.mp3');
 
                 alarmSiren.on("end", () => {

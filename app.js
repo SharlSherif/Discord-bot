@@ -46,6 +46,7 @@ bot.on('message', (message) => {
   const username = message.member.user.username;
   const channel = message.channel
   const messageContent = message.content
+  const voiceChannel = message.member.voiceChannel
 
   if (messageContent.startsWith(commands.creator)) Credits(channel)
 
@@ -57,7 +58,7 @@ bot.on('message', (message) => {
 
   else if (messageContent.startsWith(commands.google)) Google(channel, messageContent)
   
-  else if (messageContent.startsWith(commands.timer)) Timer(channel, 20)
+  else if (messageContent.startsWith(commands.timer)) Timer(channel, messageContent, voiceChannel)
 });
 
 

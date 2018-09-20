@@ -6,6 +6,7 @@ const commands = {
     joke: createCommand('joke'),
     hentai: createCommand('h'),
     google: createCommand('g'),
+    timer: createCommand('t'),
 }
 
 function createCommand(cmd) {

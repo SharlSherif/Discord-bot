@@ -26,6 +26,7 @@ const joinDate = require('./public/Responses/joinDate')
 const GetJoke = require('./public/Responses/Jokes')
 const GetHentai = require('./public/Responses/Search/Hentai')
 const Google = require('./public/Responses/Search/GoogleImages')
+const Timer = require('./public/Responses/Timer')
 // ? End Responses
 
 // const Refresh = require('./public/Refresh')
@@ -54,7 +55,9 @@ bot.on('message', (message) => {
 
   else if (messageContent.startsWith(commands.hentai)) GetHentai(channel, messageContent)
 
-  else if (message.content.startsWith(commands.google)) Google(channel, messageContent)
+  else if (messageContent.startsWith(commands.google)) Google(channel, messageContent)
+  
+  else if (messageContent.startsWith(commands.timer)) Timer(channel, 20)
 });
 
 

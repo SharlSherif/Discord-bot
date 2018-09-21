@@ -1,1 +1,1 @@
-worker: discord-botx1:work
+worker: discord-botx1:npm start

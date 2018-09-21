@@ -1,1 +1,1 @@
-rake jobs: work
+worker: discord-botx1:work

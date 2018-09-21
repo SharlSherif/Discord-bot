@@ -1,1 +1,1 @@
-rake jobs:work
+rake jobs: work

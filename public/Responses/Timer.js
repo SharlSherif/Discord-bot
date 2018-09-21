@@ -6,13 +6,17 @@ const {
 const commands = require('../Commands')
 
 async function Timer(channel, messageContent, voiceChannel) {
-    let Timer = messageContent.replace(`${commands.Timer}`, ""); // user specified tag. if none is written it runs by default
+    let Timer = messageContent.replace(`${commands.timer}`, "");
     let Counter = 0
     let TimeLeft;
     let Substraction; // ? subsctraction between the Timer set and the Counter
 
-    if (Timer > 0) await channel.send(`Timer Set To ${Timer} Minutes`) 
-    else return channel.send(`Insert time in minutes`)
+    console.log(Timer)
+    if (Timer > 0) {
+        await channel.send(`Timer Set To ${Timer} Minutes`)
+    } else {
+        return channel.send(`Insert time in minutes`)
+    }
 
     Timer = Timer * 60 // ? converts seconds to to minutes
 
@@ -23,11 +27,13 @@ async function Timer(channel, messageContent, voiceChannel) {
 
             TimeLeft = (Substraction) < 60 ? `${Substraction} Second (s)` : `${(Substraction)/60} Minute (s)`
 
-            if (Counter == Timer / 2 || Counter == Timer / 4 || Counter == Timer / 8 ) channel.send(`${TimeLeft} Left`, {tts: true})
+            if (Counter == Timer / 2 || Counter == Timer / 4 || Counter == Timer / 8) channel.send(`${TimeLeft} Left`, {
+                tts: true
+            })
 
             if (Counter == Timer) { // ? if the Timer is done
                 if (voiceChannel) { // ? if there's anyone in voice channel
-                    await voiceChannel.join().then(connection => {  // ? join that channel
+                    await voiceChannel.join().then(connection => { // ? join that channel
                         const alarmSiren = connection.playFile('./public/audio/siren.mp3'); // ? Play an MP3 file
 
                         // ! after the mp3 file ends. LEAVE THE CHANNEL.
@@ -35,7 +41,9 @@ async function Timer(channel, messageContent, voiceChannel) {
                     }).catch(err => channel.send(`${err}`))
                 }
 
-                channel.send('`ALARM ALARM ALARM, TIME IS OVER`', {tts: true})
+                channel.send('`ALARM ALARM ALARM, TIME IS OVER`', {
+                    tts: true
+                })
             }
         } else {
             clearInterval(IncreasingCounter)

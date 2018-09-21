@@ -1,5 +1,7 @@
+// ! Production Variables
 const productionVars = require('./public/ProductionVars')
 const PORT = productionVars.PORT
+
 // ? Start Modules
 const {
   app
@@ -63,12 +65,9 @@ bot.on('message', (message) => {
 
 
 bot.on('disconnect', function (msg, code) {
-  if (code === 0) return console.error(msg);
-  // bot.connect();
+  if (code == 0) return console.error(msg);
 });
 
-app.listen(PORT, () => {
-  console.log(`server is up on ${PORT}`);
-});
+app.listen(PORT, () => console.log(`server is up on ${PORT}`));
 
 module.exports = app;
